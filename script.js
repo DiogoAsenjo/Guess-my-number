@@ -41,9 +41,9 @@ document.querySelector(`.check`).addEventListener(`click`, function () {
     }
 
     //When guess is wrong
-  } else if (gues !== secretNumber) {
+  } else if (guess !== secretNumber) {
     if (score > 1) {
-      displayMessage(guess > secretNumber ? `Lower...` : `Higer...`); //Lembrar de ternay operator.
+      displayMessage(guess > secretNumber ? `Lower...` : `Higher...`); //Lembrar de ternay operator.
       score--;
       document.querySelector(`.score`).textContent = score;
     } else {
