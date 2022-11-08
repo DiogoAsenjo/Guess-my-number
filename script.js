@@ -17,16 +17,21 @@ let score = 20; //Aqui, eu poderia ter só usado o document.querySelector(`.scor
 
 let highScore = 0;
 
+const displayMessage = function (message) {
+  document.querySelector(`.message`).textContent = message;
+}; //Isso aqui foi feito por causa do refactoring, ao invés de escrever document.querySelector(`.xxx`).textContent todas as vezes que for alterar a mensagem, é mais fácil fazer uma função que ocupa bem menos espaço e deixa o código mais limpo.
+
 document.querySelector(`.check`).addEventListener(`click`, function () {
   const guess = Number(document.querySelector(`.guess`).value);
   console.log(typeof guess, guess); //Essa funcção só é chamada com o evento (Check é clicado) acontece.
 
   if (!guess || guess > 20 || guess < 1) {
-    document.querySelector(`.message`).textContent = `❌ Try a valid number!`;
+    // document.querySelector(`.message`).textContent = `❌ Try a valid number!`;
+    displayMessage(`❌ Try a valid number!`); //Aqui é um exmplo de como fazer o refactoring.
 
     //When player wins
   } else if (guess === secretNumber) {
-    document.querySelector(`.message`).textContent = `🎉 Correct Number!`;
+    displayMessage(`🎉 Correct Number!`);
     document.querySelector(`body`).style.backgroundColor = `#60b347`; //Aqui estamos manipulando CSS com JavaScript. Ao invés de usar o .xxx depois do querySelector, usamos apenas o body, que foi a área que queriamos mudar, depois selecionamos o elemento backgroud-color do CSS, selecionamos .style porque queremos mudar a cor e escrevemos em camelCase conforme pede o JavaScript e selecionamos a cor. Ou seja, quando a pessoa ganha, a cor muda.
     document.querySelector(`.number`).style.width = `30rem`; //Aqui nós fazemos o mesmo esquema da cor, mas mudamos a largura do caixa onde fica o ?
     document.querySelector(`.number`).textContent = secretNumber;
@@ -35,26 +40,14 @@ document.querySelector(`.check`).addEventListener(`click`, function () {
       document.querySelector(`.highscore`).textContent = highScore;
     }
 
-    //Guess to high
-  } else if (guess > secretNumber) {
+    //When guess is wrong
+  } else if (gues !== secretNumber) {
     if (score > 1) {
-      document.querySelector(`.message`).textContent = `Lower...`;
+      displayMessage(guess > secretNumber ? `Lower...` : `Higer...`); //Lembrar de ternay operator.
       score--;
       document.querySelector(`.score`).textContent = score;
     } else {
-      document.querySelector(`.message`).textContent = `You lost ☠`;
-      score = 0;
-      document.querySelector(`.score`).textContent = score;
-    }
-
-    //Guess to low
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      document.querySelector(`.message`).textContent = `Higer...`;
-      score--;
-      document.querySelector(`.score`).textContent = score;
-    } else {
-      document.querySelector(`.message`).textContent = `You lost ☠`;
+      displayMessage(`You lost ☠`);
       score = 0;
       document.querySelector(`.score`).textContent = score;
     }
@@ -66,11 +59,9 @@ document.querySelector(`.again`).addEventListener(`click`, function () {
   document.querySelector(`.score`).textContent = score;
   secretNumber = Math.trunc(Math.random() * 20) + 1;
   console.log(secretNumber);
-  document.querySelector(`.message`).textContent = `Start guessing...`;
+  displayMessage(`Start guessing...`);
   document.querySelector(`.number`).textContent = `?`;
   document.querySelector(`.guess`).value = ` `;
   document.querySelector(`body`).style.backgroundColor = `#222`;
   document.querySelector(`.number`).style.width = `15rem`;
 });
-
-//Teste de commit!
