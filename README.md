@@ -1,2 +1,2 @@
-# JavaScript projects
- Projetos feitos em JS em diversos cursos e/ou projetos pessoais.
+# Guess my number
+Meu primeiro projeto utilizando JavaScript // My first project using JavaScript
